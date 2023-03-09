@@ -11,9 +11,9 @@ export default class ReviewsController {
 
       const date = new Date();
 
-      const ReviewResponse = await ReviewsDAO.addReview({
+      const ReviewResponse = await ReviewsDAO.addReview(
         movieId, userInfo, review, date
-      });
+      );
       res.json({status: 'success'});
     } catch (e) {
       res.status(500).json({error: e.message});
@@ -52,7 +52,6 @@ export default class ReviewsController {
     try {
       const reviewId = req.body.review_id;
       const userId = req.body.user_id;
-      console.log('apiDeleteReview', req.body);
       const ReviewResponse = await ReviewsDAO.deleteReview(
         reviewId,
         userId

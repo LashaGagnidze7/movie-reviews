@@ -10,7 +10,7 @@ export default class ReviewsDAO {
       return;
     }
     try {
-      ReviewsDAO.reviews = await conn.db(process.env.MOVIEREVIEWS_NS).collection('reviews');
+      ReviewsDAO.reviews = await conn.db(process.env.MOVIEREVIEWS_NS).collection('comments');
     } catch (e) {
       console.error(`unable to establish connection handle in reviewDAO: ${e}`);
     }
@@ -23,7 +23,7 @@ export default class ReviewsDAO {
         user_id: user._id,
         date,
         review,
-        movie_id: ReviewsDAO.ObjectId(movieId),
+        movie_id: new ReviewsDAO.ObjectId(movieId),
       };
       return await ReviewsDAO.reviews.insertOne(reviewDoc);
     } catch (e) {
@@ -35,7 +35,7 @@ export default class ReviewsDAO {
   static async updateReview(reviewId, userId, review, date) {
     try {
       const updateResponse = await ReviewsDAO.reviews.updateOne(
-        {user_id: userId, _id: ReviewsDAO.ObjectId(reviewId)},
+        {user_id: userId, _id: new ReviewsDAO.ObjectId(reviewId)},
         {$set: {review, date}},
       );
       return updateResponse;
@@ -48,7 +48,7 @@ export default class ReviewsDAO {
   static async deleteReview(reviewId, userId) {
     try {
       const deleteResponse = await ReviewsDAO.reviews.deleteOne({
-        _id: ReviewsDAO.ObjectId(reviewId),
+        _id: new ReviewsDAO.ObjectId(reviewId),
         user_id: userId,
       });
       return deleteResponse;
