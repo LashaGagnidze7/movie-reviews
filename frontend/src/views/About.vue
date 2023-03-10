@@ -11,15 +11,8 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'About',
-  data() {
-    return {
-      title: 'About Us',
-      description: 'This is the best movie application in the world!',
-      team: 'Developed by Lasha',
-    };
-  },
-};
+<script setup>
+const title = 'About Us';
+const description = 'This is the best movie application in the world!';
+const team = 'Developed by Lasha';
 </script>
