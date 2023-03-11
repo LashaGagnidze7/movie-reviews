@@ -11,7 +11,7 @@
           <div>
             <AddReview
               v-if="store.state.user.id"
-              :movieId="movie.value._id"
+              :movieId="movie._id"
               @update-movie-info="getMovie"
             />
           </div>
@@ -44,7 +44,9 @@ import AddReview from "@/components/AddReview.vue";
 const store = useStore();
 const route = useRoute();
 
-const movie = ref({});
+const movie = ref({
+  poster: '', title: '', rated: '', plot: '', fullplot: '', _id: '', reviews: [],
+});
 
 const getMovie = async () => {
   movie.value = await MovieService.getMovie(
