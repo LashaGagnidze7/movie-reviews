@@ -14,7 +14,12 @@
             <router-link to="/" class="nav-link active">Home</router-link>
             <router-link to="/movies" class="nav-link active"> Movies</router-link>
             <router-link to="/about" class="nav-link active"> About</router-link>
-            <router-link to="/login" class="nav-link active"> Login</router-link>
+            <router-link v-if="!userData" to="/login" class="nav-link active">
+              Login
+            </router-link>
+            <a v-if="userData" @click="logout" class="nav-link active pointer">
+              Logout ({{ userData }})
+            </a>
           </div>
         </div>
       </div>
@@ -37,6 +42,22 @@
   </div>
 </template>
 
+<script setup>
+import {computed} from "vue";
+import {useStore} from "vuex";
+
+const store = useStore();
+
+const userData = computed(() => {
+  if (store.state.user.id) {
+    return `${store.state.user.id} - ${store.state.user.name}`;
+  }
+  return '';
+});
+
+const logout = () => store.commit('disconnect');
+</script>
+
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -44,5 +65,9 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+}
+
+.pointer {
+  cursor: pointer;
 }
 </style>
