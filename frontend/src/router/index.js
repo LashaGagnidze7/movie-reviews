@@ -3,6 +3,7 @@ import Home from '@/views/Home.vue';
 import About from '@/views/About.vue';
 import Movies from '@/views/Movies.vue';
 import Login from '@/views/Login.vue';
+import Movie from '@/views/Movie.vue';
 
 const routes = [{
   path: '/', name: 'Home', component: Home,
@@ -12,6 +13,8 @@ const routes = [{
   path: '/movies', name: 'Movies', component: Movies,
 }, {
   path: '/login', name: 'Login', component: Login,
+}, {
+  path: '/movie/:id', name: 'Movie', component: Movie,
 },];
 
 const router = createRouter({
