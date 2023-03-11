@@ -30,9 +30,9 @@
 </template>
 
 <script setup>
-import {ref} from 'vue';
-import {useStore} from 'vuex';
-import {useRouter} from "vue-router";
+import { ref } from 'vue';
+import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 
 const store = useStore();
 const router = useRouter();
@@ -41,13 +41,12 @@ const userId = ref('');
 const userName = ref('');
 
 const login = () => {
-  if(!(userId.value === '' || userName.value === '')) {
+  if (!(userId.value === '' || userName.value === '')) {
     store.commit('connect', {
       id: userId.value,
       name: userName.value,
     });
-    router.push({path: '/'});
+    router.push({ path: '/' });
   }
 };
 </script>
-

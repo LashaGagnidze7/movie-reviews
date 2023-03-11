@@ -1,7 +1,7 @@
-import axios from "axios";
+import axios from 'axios';
 
 export default class MovieService {
-  static async getMovies(query = '', by = "title", page = 0) {
+  static async getMovies(query = '', by = 'title', page = 0) {
     const res = await axios.get(`http://localhost:5000/api/v1/movies?${by}=${query}&page=${page}`);
     return res.data;
   }

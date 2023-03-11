@@ -41,8 +41,8 @@
 </template>
 
 <script setup>
-import MovieService from "@/services/MovieService";
-import {onMounted, ref} from 'vue';
+import MovieService from '@/services/MovieService';
+import { onMounted, ref } from 'vue';
 
 const movies = ref([]);
 const ratings = ref([]);
@@ -61,13 +61,9 @@ const getRatings = async () => {
 const filterMovies = async (type) => {
   let moviesData;
   if (type === 'title') {
-    moviesData = await MovieService.getMovies(
-      titleToSearch.value, type,
-    );
+    moviesData = await MovieService.getMovies(titleToSearch.value, type);
   } else {
-    moviesData = await MovieService.getMovies(
-      ratingToSearch.value, type
-    );
+    moviesData = await MovieService.getMovies(ratingToSearch.value, type);
   }
   movies.value = moviesData.movies;
 };

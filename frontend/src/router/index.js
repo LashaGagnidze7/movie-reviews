@@ -1,4 +1,4 @@
-import {createRouter, createWebHistory} from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router';
 import Home from '@/views/Home.vue';
 import About from '@/views/About.vue';
 import Movies from '@/views/Movies.vue';
@@ -15,7 +15,7 @@ const routes = [{
   path: '/login', name: 'Login', component: Login,
 }, {
   path: '/movie/:id', name: 'Movie', component: Movie,
-},];
+}];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL), routes,

@@ -15,9 +15,9 @@
 </template>
 
 <script setup>
-import ReviewService from "@/services/ReviewService";
-import {ref} from 'vue';
-import {useStore} from "vuex";
+import ReviewService from '@/services/ReviewService';
+import { ref } from 'vue';
+import { useStore } from 'vuex';
 
 const props = defineProps({
   movieId: String,

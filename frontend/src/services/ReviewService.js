@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 export default class ReviewService {
   static async createReview(data) {
@@ -6,7 +6,7 @@ export default class ReviewService {
   }
 
   static async deleteReview(data) {
-    return await axios.delete('http://localhost:5000/api/v1/movies/review', {data});
+    return await axios.delete('http://localhost:5000/api/v1/movies/review', { data });
   }
 
   static async updateReview(data) {
