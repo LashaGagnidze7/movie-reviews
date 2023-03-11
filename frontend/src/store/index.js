@@ -7,7 +7,6 @@ export default createStore({
       name: '',
     },
   },
-  getters: {},
   mutations: {
     connect(state, data) {
       // here you make an API call to authenticate user
@@ -19,6 +18,4 @@ export default createStore({
       state.user.name = '';
     },
   },
-  actions: {},
-  modules: {},
 });

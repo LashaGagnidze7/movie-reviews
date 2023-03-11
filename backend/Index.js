@@ -13,7 +13,7 @@ class Index {
   static main() {
     dotenv.config();
     Index.setUpServer();
-    Index.setUpDatabase();
+    Index.setUpDatabase().then(_ => {});
   }
 
   static setUpServer() {

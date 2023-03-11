@@ -110,7 +110,7 @@ const getNextPage = async () => {
 
 const getPrevPage = async () => {
   currentPage.value--;
-  if (currentPage < 0) {
+  if (currentPage.value < 0) {
     currentPage.value = 0;
   }
   await getMovies();
