@@ -39,6 +39,7 @@
 </template>
 
 <script setup>
+import MovieService from "@/services/MovieService";
 import {onMounted, ref} from 'vue';
 
 const movies = ref([]);
@@ -46,42 +47,27 @@ const ratings = ref([]);
 const titleToSearch = ref('');
 const ratingToSearch = ref('');
 
-const getMovies = () => {
-  movies.value = [
-    {
-      _id: '3',
-      title: 'Matrix',
-      poster: 'https://upload.wikimedia.org/wikipedia/en/c/c1/The_Matrix_Poster.jpg',
-      rated: 'AG',
-      plot: 'Best movie',
-    },
-    {
-      _id: '4',
-      title: 'Matrix 2',
-      poster: 'https://upload.wikimedia.org/wikipedia/en/c/c1/The_Matrix_Poster.jpg',
-      rated: 'AG',
-      plot: 'Best movie',
-    },
-    {
-      _id: '5',
-      title: 'Matrix 3',
-      poster: 'https://upload.wikimedia.org/wikipedia/en/c/c1/The_Matrix_Poster.jpg',
-      rated: 'AG',
-      plot: 'Best movie',
-    },
-  ];
+const getMovies = async () => {
+  const moviesData = await MovieService.getMovies();
+  movies.value = moviesData.movies;
 };
 
-const getRatings = () => {
-  ratings.value = ['AO', 'G', 'GP'];
+const getRatings = async () => {
+  ratings.value = await MovieService.getRatings();
 };
 
-const filterMovies = (type) => {
+const filterMovies = async (type) => {
+  let moviesData;
   if (type === 'title') {
-    console.log(titleToSearch.value);
+    moviesData = await MovieService.getMovies(
+      titleToSearch.value, type,
+    );
   } else {
-    console.log(ratingToSearch.value);
+    moviesData = await MovieService.getMovies(
+      ratingToSearch.value, type
+    );
   }
+  movies.value = moviesData.movies;
 };
 
 onMounted(() => {
