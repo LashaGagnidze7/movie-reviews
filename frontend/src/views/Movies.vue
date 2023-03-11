@@ -37,20 +37,56 @@
         </div>
       </div>
     </div>
+    <nav>
+      <ul class="pagination ms-3">
+        <li class="page-item">
+          <a class="page-link pointer" @click="getPrevPage"> Get previous
+            {{ entriesPerPage }}
+          </a>
+        </li>
+        <li class="page-item disabled">
+          <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
+            Showing Page: {{ currentPage }}
+          </a>
+        </li>
+        <li class="page-item">
+          <a class="page-link pointer" @click="getNextPage">
+            Get next {{ entriesPerPage }}
+          </a>
+        </li>
+      </ul>
+    </nav>
   </div>
 </template>
 
 <script setup>
 import MovieService from '@/services/MovieService';
-import { onMounted, ref } from 'vue';
+import {onMounted, ref} from 'vue';
 
 const movies = ref([]);
 const ratings = ref([]);
 const titleToSearch = ref('');
 const ratingToSearch = ref('');
+const typeToSearch = ref('');
+const currentPage = ref(0);
+const entriesPerPage = ref(20);
+const totalPages = ref(0);
 
 const getMovies = async () => {
-  const moviesData = await MovieService.getMovies();
+  let query = '';
+  if (typeToSearch.value === 'title') {
+    query = titleToSearch;
+  } else if (typeToSearch.value === 'rated') {
+    query = ratingToSearch.value;
+  }
+
+  const moviesData = await MovieService.getMovies(
+    query, typeToSearch.value, currentPage.value
+  );
+
+  totalPages.value = Math.ceil(
+    movies.total_results / entriesPerPage
+  ) - 1;
   movies.value = moviesData.movies;
 };
 
@@ -59,13 +95,25 @@ const getRatings = async () => {
 };
 
 const filterMovies = async (type) => {
-  let moviesData;
-  if (type === 'title') {
-    moviesData = await MovieService.getMovies(titleToSearch.value, type);
-  } else {
-    moviesData = await MovieService.getMovies(ratingToSearch.value, type);
+  typeToSearch.value = type;
+  currentPage.value = 0;
+  await getMovies();
+};
+
+const getNextPage = async () => {
+  currentPage.value++;
+  if (currentPage.value > totalPages.value) {
+    currentPage.value = totalPages.value;
   }
-  movies.value = moviesData.movies;
+  await getMovies();
+};
+
+const getPrevPage = async () => {
+  currentPage.value--;
+  if (currentPage < 0) {
+    currentPage.value = 0;
+  }
+  await getMovies();
 };
 
 onMounted(() => {

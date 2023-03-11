@@ -49,17 +49,15 @@
 import * as moment from 'moment';
 import MovieService from '@/services/MovieService';
 import ReviewService from '@/services/ReviewService';
-import { onMounted, ref } from 'vue';
-import { useStore } from 'vuex';
-import { useRoute } from 'vue-router';
+import {onMounted, ref} from 'vue';
+import {useStore} from 'vuex';
+import {useRoute} from 'vue-router';
 import AddReview from '@/components/AddReview.vue';
 
 const store = useStore();
 const route = useRoute();
 
-const movie = ref({
-  poster: '', title: '', rated: '', plot: '', fullplot: '', _id: '', reviews: [],
-});
+const movie = ref({});
 
 const newReviewMessage = ref('');
 
@@ -67,7 +65,7 @@ const getMovie = async () => {
   movie.value = await MovieService.getMovie(
     route.params.id,
   );
-  movie.value.reviews = movie.value.reviews.map((v) => ({ ...v, editing: false }));
+  movie.value.reviews = movie.value.reviews.map((v) => ({...v, editing: false}));
 };
 
 const getFormattedDate = (date) => moment(date).format('Do MMMM YYYY');
