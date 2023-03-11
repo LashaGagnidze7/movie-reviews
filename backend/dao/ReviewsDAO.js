@@ -34,11 +34,10 @@ export default class ReviewsDAO {
 
   static async updateReview(reviewId, userId, review, date) {
     try {
-      const updateResponse = await ReviewsDAO.reviews.updateOne(
+      return await ReviewsDAO.reviews.updateOne(
         {user_id: userId, _id: new ReviewsDAO.ObjectId(reviewId)},
         {$set: {review, date}},
       );
-      return updateResponse;
     } catch (e) {
       console.error(`unable to update review: ${e}`);
       return {error: e};
@@ -47,11 +46,10 @@ export default class ReviewsDAO {
 
   static async deleteReview(reviewId, userId) {
     try {
-      const deleteResponse = await ReviewsDAO.reviews.deleteOne({
+      return await ReviewsDAO.reviews.deleteOne({
         _id: new ReviewsDAO.ObjectId(reviewId),
         user_id: userId,
       });
-      return deleteResponse;
     } catch (e) {
       console.error(`unable to delete review: ${e}`);
       return {error: e};

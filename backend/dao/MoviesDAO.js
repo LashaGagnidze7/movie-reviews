@@ -66,7 +66,7 @@ export default class MoviesDAO {
         },
         {
           $lookup: {
-            from: 'reviews',
+            from: 'comments',
             localField: '_id',
             foreignField: 'movie_id',
             as: 'reviews',
