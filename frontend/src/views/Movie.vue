@@ -9,7 +9,11 @@
         <div class="col-md-6 col-sm-12">
           <p class="card-text">{{ movie.fullplot }}</p>
           <div>
-            Form to Add Reviews
+            <AddReview
+              v-if="store.state.user.id"
+              :movieId="movie.value._id"
+              @update-movie-info="getMovie"
+            />
           </div>
           <hr/>
           <h3>Reviews</h3>
@@ -33,8 +37,11 @@
 import * as moment from 'moment';
 import MovieService from "@/services/MovieService";
 import {onMounted, ref} from "vue";
+import {useStore} from "vuex";
 import {useRoute} from "vue-router";
+import AddReview from "@/components/AddReview.vue";
 
+const store = useStore();
 const route = useRoute();
 
 const movie = ref({});
