@@ -9,7 +9,7 @@
           <label class="form-label">Message</label>
           <input v-model="message" type="text" class="form-control">
         </div>
-        <a v-on:click="saveReview()" class="btn btn-primary">Submit</a></form>
+        <a @click="saveReview()" class="btn btn-primary">Submit</a></form>
     </div>
   </div>
 </template>
@@ -32,7 +32,7 @@ const message = ref('');
 const saveReview = async () => {
   if (message.value !== '') {
     const data = {
-      review: message,
+      review: message.value,
       name: store.state.user.name,
       user_id: store.state.user.id,
       movie_id: props.movieId,
