@@ -8,45 +8,54 @@
         <div class="row">
           <div class="col">
             <div class="mb-3 row">
-              <label class="col-sm-2 col-form-label">ID</label>
+              <label class="col-sm-2 col-form-label">Email</label>
               <div class="col-sm-10">
-                <input v-model="userId" type="number" class="form-control">
+                <input v-model="userEmail" type="email" class="form-control">
               </div>
             </div>
           </div>
           <div class="col">
             <div class="mb-3 row">
-              <label class="col-sm-2 col-form-label">Name</label>
+              <label class="col-sm-2 col-form-label">Password</label>
               <div class="col-sm-10">
-                <input v-model="userName" type="text" class="form-control">
+                <input v-model="userPassword" type="password" class="form-control">
               </div>
             </div>
           </div>
         </div>
-        <a @click="login()" class="btn btn-primary">Submit</a>
+        <a @click="login()" class="btn btn-primary">Login</a>
       </form>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { useStore } from 'vuex';
-import { useRouter } from 'vue-router';
+import {ref} from 'vue';
+import {useStore} from 'vuex';
+import {useRouter} from 'vue-router';
+import UserService from "@/services/UserService";
 
 const store = useStore();
 const router = useRouter();
 
-const userId = ref('');
-const userName = ref('');
+const userEmail = ref('');
+const userPassword = ref('');
 
-const login = () => {
-  if (!(userId.value === '' || userName.value === '')) {
-    store.commit('connect', {
-      id: userId.value,
-      name: userName.value,
-    });
-    router.push({ path: '/' });
+const login = async () => {
+  if (!(userEmail.value === '' || userPassword.value === '')) {
+    const user = await UserService.getUserByEmail(userEmail.value);
+    if (user) {
+      if (user.password === userPassword.value) {
+        store.commit('connect', user);
+        router.push({path: '/'});
+      } else {
+        alert("Incorrect Password!");
+      }
+    } else {
+      alert("Incorrect Email!");
+    }
+  } else {
+    alert('Please enter user data!')
   }
 };
 </script>

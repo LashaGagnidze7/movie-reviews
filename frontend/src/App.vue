@@ -47,8 +47,8 @@ import { useStore } from 'vuex';
 const store = useStore();
 
 const userData = computed(() => {
-  if (store.state.user.id) {
-    return `${store.state.user.id} - ${store.state.user.name}`;
+  if (store.state.user._id) {
+    return store.state.user.name;
   }
   return '';
 });

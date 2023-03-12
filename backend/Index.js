@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import { MongoClient } from "mongodb";
 import MoviesDAO from "./dao/MoviesDAO.js";
 import CommentsDAO from "./dao/CommentsDAO.js";
+import UsersDAO from "./dao/UsersDAO.js";
 
 class Index {
   static app = express();
@@ -33,6 +34,7 @@ class Index {
       await client.connect();
       await MoviesDAO.injectDB(client);
       await CommentsDAO.injectDB(client);
+      await UsersDAO.injectDB(client);
       Index.app.listen(port,() => {
         console.log(`server is running on port: ${port}`);
       });

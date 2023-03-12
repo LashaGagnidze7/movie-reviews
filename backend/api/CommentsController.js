@@ -1,6 +1,6 @@
 import CommentsDAO from "../dao/CommentsDAO.js";
 
-export default class ReviewsController {
+export default class CommentsController {
   static async apiPostReview(req, res) {
     try {
       const movieId = req.body.movie_id;

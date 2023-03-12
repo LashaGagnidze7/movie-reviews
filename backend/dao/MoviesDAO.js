@@ -79,8 +79,7 @@ export default class MoviesDAO {
               as: "reviews",
             },
           },
-        ])
-        .next();
+        ]).next();
     } catch (e) {
       console.error(`something went wrong in getMoviesById: ${e}`);
     }

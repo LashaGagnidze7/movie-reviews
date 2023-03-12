@@ -32,7 +32,7 @@ export default class MoviesController {
 
   static async apiGetMovieById(req, res) {
     try {
-      const id = req.params.id || {};
+      const id = req.params.id;
       const movie = await MoviesDAO.getMovieById(id);
       if (!movie) {
         res.status(404).json({ error: "not found" });
