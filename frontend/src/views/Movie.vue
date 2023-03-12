@@ -4,8 +4,13 @@
     <div class="card-body">
       <div class="row">
         <div class="col-md-6 col-sm-12">
-          <img v-if="movie.poster"
-               class="card-img-top" :src="movie.poster" alt=""/></div>
+          <img
+            class="card-img-top"
+            :src="movie.poster"
+            @error="renderDefaultPoster"
+            alt=""
+          />
+        </div>
         <div class="col-md-6 col-sm-12">
           <p class="card-text">{{ movie.fullplot }}</p>
           <div>
@@ -60,6 +65,10 @@ const route = useRoute();
 const movie = ref({});
 
 const newReviewMessage = ref('');
+
+const renderDefaultPoster = (e) => {
+  e.target.src = require("../assets/Poster_not_available.jpg");
+};
 
 const getMovie = async () => {
   movie.value = await MovieService.getMovie(

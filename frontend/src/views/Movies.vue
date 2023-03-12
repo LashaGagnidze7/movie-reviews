@@ -24,7 +24,8 @@
       <div class="row row-cols-1 row-cols-md-3 g-4">
         <div v-for="movie in movies" class="col" :key="movie._id">
           <div class="card">
-            <img v-if="movie.poster" class="card-img-top" :src="movie.poster" alt=""/>
+            <img class="card-img-top" :src="movie.poster"
+                 @error="renderDefaultPoster" alt=""/>
             <div class="card-body">
               <h5 class="card-title fw-bold">{{ movie.title }}</h5>
               <p v-if="movie.rated" class="card-text"> Rating: {{ movie.rated }} </p>
@@ -71,6 +72,10 @@ const typeToSearch = ref('');
 const currentPage = ref(0);
 const entriesPerPage = ref(20);
 const totalPages = ref(0);
+
+const renderDefaultPoster = (e) => {
+  e.target.src = require("../assets/Poster_not_available.jpg");
+};
 
 const getMovies = async () => {
   let query = '';

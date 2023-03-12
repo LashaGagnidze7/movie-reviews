@@ -1,50 +1,51 @@
-import ReviewsDAO from '../dao/ReviewsDAO.js';
+import CommentsDAO from "../dao/CommentsDAO.js";
 
 export default class ReviewsController {
   static async apiPostReview(req, res) {
     try {
       const movieId = req.body.movie_id;
-      const {review} = req.body;
+      const { review } = req.body;
       const userInfo = {
-        name: req.body.name, _id: req.body.user_id,
-      }
+        name: req.body.name,
+        _id: req.body.user_id,
+      };
 
       const date = new Date();
 
-      await ReviewsDAO.addReview(
-        movieId, userInfo, review, date
-      );
-      res.json({status: 'success'});
+      await CommentsDAO.addReview(movieId, userInfo, review, date);
+      res.json({ status: "success" });
     } catch (e) {
-      res.status(500).json({error: e.message});
+      res.status(500).json({ error: e.message });
     }
   }
 
   static async apiUpdateReview(req, res) {
     try {
       const reviewId = req.body.review_id;
-      const {review} = req.body;
+      const { review } = req.body;
 
       const date = new Date();
 
-      const ReviewResponse = await ReviewsDAO.updateReview(
+      const ReviewResponse = await CommentsDAO.updateReview(
         reviewId,
         req.body.user_id,
         review,
-        date,
+        date
       );
 
-      const {error} = ReviewResponse;
+      const { error } = ReviewResponse;
       if (error) {
-        res.status.json({error});
+        res.status.json({ error });
       }
 
       if (ReviewResponse.modifiedCount === 0) {
-        throw new Error('unable to update review. User may not be original poster');
+        throw new Error(
+          "unable to update review. User may not be original poster"
+        );
       }
-      res.json({status: 'success'});
+      res.json({ status: "success" });
     } catch (e) {
-      res.status(500).json({error: e.message});
+      res.status(500).json({ error: e.message });
     }
   }
 
@@ -52,13 +53,10 @@ export default class ReviewsController {
     try {
       const reviewId = req.body.review_id;
       const userId = req.body.user_id;
-      await ReviewsDAO.deleteReview(
-        reviewId,
-        userId
-      );
-      res.json({status: 'success'});
+      await CommentsDAO.deleteReview(reviewId, userId);
+      res.json({ status: "success" });
     } catch (e) {
-      res.status(500).json({error: e.message});
+      res.status(500).json({ error: e.message });
     }
   }
 }
