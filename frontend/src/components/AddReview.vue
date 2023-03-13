@@ -16,8 +16,8 @@
 
 <script setup>
 import ReviewService from '@/services/ReviewService';
-import { ref } from 'vue';
-import { useStore } from 'vuex';
+import {ref} from 'vue';
+import {useStore} from 'vuex';
 
 const props = defineProps({
   movieId: String,
@@ -32,10 +32,11 @@ const message = ref('');
 const saveReview = async () => {
   if (message.value !== '') {
     const data = {
-      review: message.value,
       name: store.state.user.name,
-      user_id: store.state.user.id,
+      email: store.state.user.email,
       movie_id: props.movieId,
+      text: message.value,
+      date: new Date(),
     };
     await ReviewService.createReview(data);
     message.value = '';

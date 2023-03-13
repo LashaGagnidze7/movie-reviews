@@ -76,7 +76,7 @@ export default class MoviesDAO {
               from: "comments",
               localField: "_id",
               foreignField: "movie_id",
-              as: "reviews",
+              as: "comments",
             },
           },
         ]).next();

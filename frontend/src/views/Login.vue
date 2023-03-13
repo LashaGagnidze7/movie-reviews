@@ -22,6 +22,7 @@
               </div>
             </div>
           </div>
+          <p>{{error}}</p>
         </div>
         <a @click="login()" class="btn btn-primary">Login</a>
       </form>
@@ -40,6 +41,7 @@ const router = useRouter();
 
 const userEmail = ref('');
 const userPassword = ref('');
+const error = ref('');
 
 const login = async () => {
   if (!(userEmail.value === '' || userPassword.value === '')) {
@@ -49,13 +51,13 @@ const login = async () => {
         store.commit('connect', user);
         router.push({path: '/'});
       } else {
-        alert("Incorrect Password!");
+        error.value = "Incorrect Password!"
       }
     } else {
-      alert("Incorrect Email!");
+      error.value = "Incorrect Email!";
     }
   } else {
-    alert('Please enter user data!')
+    error.value = 'Please enter user data!';
   }
 };
 </script>

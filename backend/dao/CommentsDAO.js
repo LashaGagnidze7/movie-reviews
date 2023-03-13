@@ -1,14 +1,14 @@
 import { ObjectId } from "mongodb";
 
 export default class CommentsDAO {
-  static reviews;
+  static comments;
 
   static async injectDB(conn) {
-    if (CommentsDAO.reviews) {
+    if (CommentsDAO.comments) {
       return;
     }
     try {
-      CommentsDAO.reviews = await conn
+      CommentsDAO.comments = await conn
         .db(process.env.MOVIEREVIEWS_NS)
         .collection("comments");
     } catch (e) {
@@ -16,25 +16,18 @@ export default class CommentsDAO {
     }
   }
 
-  static async addReview(movieId, user, review, date) {
+  static async addReview(data) {
+    data.movie_id = new ObjectId(data.movie_id);
     try {
-      const reviewDoc = {
-        name: user.name,
-        user_id: user._id,
-        date,
-        review,
-        movie_id: new ObjectId(movieId),
-      };
-      return await CommentsDAO.reviews.insertOne(reviewDoc);
+      await CommentsDAO.comments.insertOne(data);
     } catch (e) {
       console.error(`unable to post review: ${e}`);
-      return { error: e };
     }
   }
 
   static async updateReview(reviewId, userId, review, date) {
     try {
-      return await CommentsDAO.reviews.updateOne(
+      return await CommentsDAO.comments.updateOne(
         { user_id: userId, _id: new ObjectId(reviewId) },
         { $set: { review, date } }
       );
@@ -46,7 +39,7 @@ export default class CommentsDAO {
 
   static async deleteReview(reviewId, userId) {
     try {
-      return await CommentsDAO.reviews.deleteOne({
+      return await CommentsDAO.comments.deleteOne({
         _id: new ObjectId(reviewId),
         user_id: userId,
       });

@@ -15,7 +15,7 @@
           <p class="card-text">{{ movie.fullplot }}</p>
           <div>
             <AddReview
-              v-if="store.state.user.id"
+              v-if="store.state.user.email"
               :movieId="movie._id"
               @update-movie-info="getMovie"
             />
@@ -23,22 +23,22 @@
           <hr/>
           <h3>Reviews</h3>
           <ul class="list-group">
-            <li class="list-group-item pb-3 pt-3" v-for="review in movie.reviews"
-                :key="review._id">
-              <h5 class="card-title">Review by {{ review.name }}</h5>
-              <h6 class="card-subtitle mb-2 text-muted">{{ getFormattedDate(review.date) }}</h6>
-              <p v-if="!review.editing" class="card-text">{{ review.review }}</p>
-              <p v-if="review.editing" class="card-text">
-                <input v-model="newReviewMessage" type="text" class="form-control"/>
+            <li class="list-group-item pb-3 pt-3" v-for="comment in movie.comments"
+                :key="comment._id">
+              <h5 class="card-title">Review by {{ comment.name }}</h5>
+              <h6 class="card-subtitle mb-2 text-muted">{{ getFormattedDate(comment.date) }}</h6>
+              <p v-if="!comment.editing" class="card-text">{{ comment.text }}</p>
+              <p v-if="comment.editing" class="card-text">
+                <input v-model="newComment" type="text" class="form-control"/>
               </p>
-              <a v-if="verifyAuthorship(review.user_id)"
-                 @click="editReview(review)"
+              <a v-if="verifyAuthorship(comment.email)"
+                 @click="editReview(comment)"
                  class="btn btn-primary me-3"
               >
                 Edit
               </a>
-              <a v-if="verifyAuthorship(review.user_id)"
-                 @click="deleteReview(review._id)"
+              <a v-if="verifyAuthorship(comment.email)"
+                 @click="deleteReview(comment._id)"
                  class="btn btn-danger">
                 Delete
               </a>
@@ -64,7 +64,7 @@ const route = useRoute();
 
 const movie = ref({});
 
-const newReviewMessage = ref('');
+const newComment = ref('');
 
 const renderDefaultPoster = (e) => {
   e.target.src = require("../assets/Poster_not_available.jpg");
@@ -74,21 +74,21 @@ const getMovie = async () => {
   movie.value = await MovieService.getMovie(
     route.params.id,
   );
-  movie.value.reviews = movie.value.reviews.map((v) => ({...v, editing: false}));
+  movie.value.comments = movie.value.comments.map((v) => ({...v, editing: false}));
 };
 
 const getFormattedDate = (date) => moment(date).format('Do MMMM YYYY');
 
-const verifyAuthorship = (reviewUserId) => store.state.user.id && store.state.user.id === reviewUserId;
+const verifyAuthorship = (reviewUserEmail) => store.state.user.email && store.state.user.email === reviewUserEmail;
 
-const editReview = (review) => {
-  if (review.editing) {
-    review.review = newReviewMessage.value;
-    saveUpdatedReview(review);
-    review.editing = false;
+const editReview = (comment) => {
+  if (comment.editing) {
+    comment.text = newComment.value;
+    saveUpdatedReview(comment);
+    comment.editing = false;
   } else {
-    newReviewMessage.value = review.review;
-    review.editing = true;
+    newComment.value = comment.text;
+    comment.editing = true;
   }
 };
 
@@ -96,7 +96,7 @@ const saveUpdatedReview = async (newReview) => {
   const data = {
     review: newReview.review,
     name: newReview.name,
-    user_id: newReview.user_id,
+    email: newReview.email,
     movie_id: newReview.movie_id,
     review_id: newReview._id,
   };
@@ -105,7 +105,7 @@ const saveUpdatedReview = async (newReview) => {
 
 const deleteReview = async (reviewId) => {
   const data = {
-    user_id: store.state.user.id,
+    email: store.state.user.email,
     review_id: reviewId,
   };
   await ReviewService.deleteReview(data);

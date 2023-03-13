@@ -3,26 +3,17 @@ import CommentsDAO from "../dao/CommentsDAO.js";
 export default class CommentsController {
   static async apiPostReview(req, res) {
     try {
-      const movieId = req.body.movie_id;
-      const { review } = req.body;
-      const userInfo = {
-        name: req.body.name,
-        _id: req.body.user_id,
-      };
-
-      const date = new Date();
-
-      await CommentsDAO.addReview(movieId, userInfo, review, date);
-      res.json({ status: "success" });
+      await CommentsDAO.addReview(req.body);
+      res.json({status: "success"});
     } catch (e) {
-      res.status(500).json({ error: e.message });
+      res.status(500).json({error: e.message});
     }
   }
 
   static async apiUpdateReview(req, res) {
     try {
       const reviewId = req.body.review_id;
-      const { review } = req.body;
+      const {review} = req.body;
 
       const date = new Date();
 
@@ -33,9 +24,9 @@ export default class CommentsController {
         date
       );
 
-      const { error } = ReviewResponse;
+      const {error} = ReviewResponse;
       if (error) {
-        res.status.json({ error });
+        res.status.json({error});
       }
 
       if (ReviewResponse.modifiedCount === 0) {
@@ -43,9 +34,9 @@ export default class CommentsController {
           "unable to update review. User may not be original poster"
         );
       }
-      res.json({ status: "success" });
+      res.json({status: "success"});
     } catch (e) {
-      res.status(500).json({ error: e.message });
+      res.status(500).json({error: e.message});
     }
   }
 
@@ -54,9 +45,9 @@ export default class CommentsController {
       const reviewId = req.body.review_id;
       const userId = req.body.user_id;
       await CommentsDAO.deleteReview(reviewId, userId);
-      res.json({ status: "success" });
+      res.json({status: "success"});
     } catch (e) {
-      res.status(500).json({ error: e.message });
+      res.status(500).json({error: e.message});
     }
   }
 }

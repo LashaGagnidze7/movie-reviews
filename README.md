@@ -1,2 +1,2 @@
-# movie-reviews
+# movie-comments
 MEVN stack project
