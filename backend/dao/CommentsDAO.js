@@ -37,15 +37,12 @@ export default class CommentsDAO {
     }
   }
 
-  static async deleteReview(reviewId, userId) {
+  static async deleteReview(data) {
     try {
-      return await CommentsDAO.comments.deleteOne({
-        _id: new ObjectId(reviewId),
-        user_id: userId,
-      });
+      data._id = new ObjectId(data._id);
+      await CommentsDAO.comments.deleteOne(data);
     } catch (e) {
       console.error(`unable to delete review: ${e}`);
-      return { error: e };
     }
   }
 }

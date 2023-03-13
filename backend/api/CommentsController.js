@@ -42,9 +42,7 @@ export default class CommentsController {
 
   static async apiDeleteReview(req, res) {
     try {
-      const reviewId = req.body.review_id;
-      const userId = req.body.user_id;
-      await CommentsDAO.deleteReview(reviewId, userId);
+      await CommentsDAO.deleteReview(req.body);
       res.json({status: "success"});
     } catch (e) {
       res.status(500).json({error: e.message});

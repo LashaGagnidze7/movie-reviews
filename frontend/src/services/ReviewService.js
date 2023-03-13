@@ -6,7 +6,7 @@ export default class ReviewService {
   }
 
   static async deleteReview(data) {
-    return await axios.delete('http://localhost:5000/api/v1/movies/review',  data);
+    await axios.delete('http://localhost:5000/api/v1/movies/review',  {data});
   }
 
   static async updateReview(data) {

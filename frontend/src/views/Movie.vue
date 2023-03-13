@@ -79,7 +79,7 @@ const getMovie = async () => {
 
 const getFormattedDate = (date) => moment(date).format('Do MMMM YYYY');
 
-const verifyAuthorship = (reviewUserEmail) => store.state.user.email && store.state.user.email === reviewUserEmail;
+const verifyAuthorship = (userEmail) => store.state.user.email && store.state.user.email === userEmail;
 
 const editReview = (comment) => {
   if (comment.editing) {
@@ -103,10 +103,9 @@ const saveUpdatedReview = async (newReview) => {
   await ReviewService.updateReview(data);
 };
 
-const deleteReview = async (reviewId) => {
+const deleteReview = async (commentId) => {
   const data = {
-    email: store.state.user.email,
-    review_id: reviewId,
+    _id: commentId,
   };
   await ReviewService.deleteReview(data);
   await getMovie();
