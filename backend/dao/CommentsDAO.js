@@ -1,5 +1,4 @@
-import {ObjectId} from "mongodb";
-
+import { ObjectId } from "mongodb";
 
 export default class CommentsDAO {
   static comments;
@@ -30,8 +29,8 @@ export default class CommentsDAO {
     try {
       data._id = new ObjectId(data._id);
       await CommentsDAO.comments.updateOne(
-        {_id: data._id},
-        {$set: {text: data.text, date: data.date}}
+        { _id: data._id },
+        { $set: { text: data.text, date: data.date } }
       );
     } catch (e) {
       console.error(`unable to update review: ${e}`);

@@ -12,7 +12,7 @@
 </template>
 
 <script setup>
-const title = 'About Us';
-const description = 'This is the best movie application in the world!';
-const team = 'Developed by Lasha';
+const title = "About Us";
+const description = "This is the best movie application in the world!";
+const team = "Developed by Lasha";
 </script>

@@ -1,12 +1,12 @@
 <template>
   <div class="card">
-    <div class="card-header"> Movie Results</div>
+    <div class="card-header">Movie Results</div>
     <!-- form control -->
     <div class="card-body">
       <div class="row mb-3">
         <div class="col">
           <div class="d-flex">
-            <input v-model="titleToSearch" class="form-control" placeholder="Search by title"/>
+            <input v-model="titleToSearch" class="form-control" placeholder="Search by title" />
             <a @click="filterMovies('title')" class="btn btn-primary ms-4"> Search</a>
           </div>
         </div>
@@ -14,7 +14,7 @@
           <div class="d-flex">
             <select v-model="ratingToSearch" class="form-select">
               <option disabled selected value="">Select by Rating</option>
-              <option v-for="rating in ratings" :key="rating" :value="rating"> {{ rating }}</option>
+              <option v-for="rating in ratings" :key="rating" :value="rating">{{ rating }}</option>
             </select>
             <a @click="filterMovies('rated')" class="btn btn-primary ms-4"> Filter </a>
           </div>
@@ -24,13 +24,12 @@
       <div class="row row-cols-1 row-cols-md-3 g-4">
         <div v-for="movie in movies" class="col" :key="movie._id">
           <div class="card">
-            <img class="card-img-top" :src="movie.poster"
-                 @error="renderDefaultPoster" alt=""/>
+            <img class="card-img-top" :src="movie.poster" @error="renderDefaultPoster" alt="" />
             <div class="card-body">
               <h5 class="card-title fw-bold">{{ movie.title }}</h5>
-              <p v-if="movie.rated" class="card-text"> Rating: {{ movie.rated }} </p>
+              <p v-if="movie.rated" class="card-text">Rating: {{ movie.rated }}</p>
               <p class="card-text">{{ movie.plot }}</p>
-              <router-link :to="'/movie/'+ movie._id" class="btn btn-primary">
+              <router-link :to="'/movie/' + movie._id" class="btn btn-primary">
                 View Reviews
               </router-link>
             </div>
@@ -41,7 +40,8 @@
     <nav>
       <ul class="pagination ms-3">
         <li class="page-item">
-          <a class="page-link pointer" @click="getPrevPage"> Get previous
+          <a class="page-link pointer" @click="getPrevPage">
+            Get previous
             {{ entriesPerPage }}
           </a>
         </li>
@@ -51,9 +51,7 @@
           </a>
         </li>
         <li class="page-item">
-          <a class="page-link pointer" @click="getNextPage">
-            Get next {{ entriesPerPage }}
-          </a>
+          <a class="page-link pointer" @click="getNextPage"> Get next {{ entriesPerPage }} </a>
         </li>
       </ul>
     </nav>
@@ -61,14 +59,14 @@
 </template>
 
 <script setup>
-import MovieService from '@/services/MovieService';
-import {onMounted, ref} from 'vue';
+import MovieService from "@/services/MovieService";
+import { onMounted, ref } from "vue";
 
 const movies = ref([]);
 const ratings = ref([]);
-const titleToSearch = ref('');
-const ratingToSearch = ref('');
-const typeToSearch = ref('');
+const titleToSearch = ref("");
+const ratingToSearch = ref("");
+const typeToSearch = ref("");
 const currentPage = ref(0);
 const entriesPerPage = ref(20);
 const totalPages = ref(0);
@@ -78,20 +76,16 @@ const renderDefaultPoster = (e) => {
 };
 
 const getMovies = async () => {
-  let query = '';
-  if (typeToSearch.value === 'title') {
+  let query = "";
+  if (typeToSearch.value === "title") {
     query = titleToSearch;
-  } else if (typeToSearch.value === 'rated') {
+  } else if (typeToSearch.value === "rated") {
     query = ratingToSearch.value;
   }
 
-  const moviesData = await MovieService.getMovies(
-    query, typeToSearch.value, currentPage.value
-  );
+  const moviesData = await MovieService.getMovies(query, typeToSearch.value, currentPage.value);
 
-  totalPages.value = Math.ceil(
-    movies.total_results / entriesPerPage
-  ) - 1;
+  totalPages.value = Math.ceil(movies.total_results / entriesPerPage) - 1;
   movies.value = moviesData.movies;
 };
 

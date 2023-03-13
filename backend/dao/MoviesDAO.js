@@ -1,4 +1,4 @@
-import {ObjectId} from "mongodb";
+import { ObjectId } from "mongodb";
 
 export default class MoviesDAO {
   static movies;
@@ -17,37 +17,33 @@ export default class MoviesDAO {
   }
 
   static async getMovies({
-                           filters = null,
-                           page = 0,
-                           moviesPerPage = 20,
-                         } = {}) {
+    filters = null,
+    page = 0,
+    moviesPerPage = 20,
+  } = {}) {
     const query = {
-      $and: [
-        {poster: {$exists: true}},
-      ],
+      $and: [{ poster: { $exists: true } }],
     };
     if (filters) {
       if ("title" in filters) {
-        query.$and.push({$text: {$search: filters.title}});
+        query.$and.push({ $text: { $search: filters.title } });
       } else if ("rated" in filters) {
-        query.$and.push({rated: {$eq: filters.rated}});
+        query.$and.push({ rated: { $eq: filters.rated } });
       }
     }
 
     let cursor;
     try {
       cursor = await MoviesDAO.movies
-        .find(
-          query
-        )
+        .find(query)
         .limit(moviesPerPage)
         .skip(moviesPerPage * page);
       const moviesList = await cursor.toArray();
       const totalNumMovies = await MoviesDAO.movies.countDocuments(query);
-      return {moviesList, totalNumMovies};
+      return { moviesList, totalNumMovies };
     } catch (e) {
       console.error(`Unable to issue find command, ${e}`);
-      return {moviesList: [], totalNumMovies: 0};
+      return { moviesList: [], totalNumMovies: 0 };
     }
   }
 
@@ -79,7 +75,8 @@ export default class MoviesDAO {
               as: "comments",
             },
           },
-        ]).next();
+        ])
+        .next();
     } catch (e) {
       console.error(`something went wrong in getMoviesById: ${e}`);
     }

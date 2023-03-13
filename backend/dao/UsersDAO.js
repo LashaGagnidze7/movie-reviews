@@ -16,7 +16,7 @@ export default class UsersDAO {
 
   static async getUserByEmail(email) {
     try {
-      const query = {email: email}
+      const query = { email: email };
       return await UsersDAO.users.find(query).next();
     } catch (e) {
       console.error(`something went wrong in getUserByEmail: ${e}`);
@@ -25,7 +25,7 @@ export default class UsersDAO {
 
   static async getUserByName(name) {
     try {
-      const query = {name: name}
+      const query = { name: name };
       return await UsersDAO.users.find(query).next();
     } catch (e) {
       console.error(`something went wrong in getUserByName: ${e}`);

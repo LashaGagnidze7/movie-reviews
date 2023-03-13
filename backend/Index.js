@@ -35,7 +35,7 @@ class Index {
       await MoviesDAO.injectDB(client);
       await CommentsDAO.injectDB(client);
       await UsersDAO.injectDB(client);
-      Index.app.listen(port,() => {
+      Index.app.listen(port, () => {
         console.log(`server is running on port: ${port}`);
       });
     } catch (e) {
