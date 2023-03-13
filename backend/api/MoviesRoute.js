@@ -13,9 +13,10 @@ export default class MoviesRoute {
       .put(CommentsController.apiUpdateReview)
       .delete(CommentsController.apiDeleteReview);
 
-    router.route("/users/:email").get(UsersController.apiLoginUser);
+    router.route("/users/email/:email").get(UsersController.apiLoginUserByEmail);
+    router.route("/users/name/:name").get(UsersController.apiLoginUserByName)
 
-    //router.route("/register").post(UsersController.apiRegisterUser);
+    router.route("/register").post(UsersController.apiRegisterUser);
     return router;
   }
 }

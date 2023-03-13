@@ -22,4 +22,21 @@ export default class UsersDAO {
       console.error(`something went wrong in getUserByEmail: ${e}`);
     }
   }
+
+  static async getUserByName(name) {
+    try {
+      const query = {name: name}
+      return await UsersDAO.users.find(query).next();
+    } catch (e) {
+      console.error(`something went wrong in getUserByName: ${e}`);
+    }
+  }
+
+  static async registerUser(data) {
+    try {
+      await UsersDAO.users.insertOne(data);
+    } catch (e) {
+      console.error(`unable to post review: ${e}`);
+    }
+  }
 }

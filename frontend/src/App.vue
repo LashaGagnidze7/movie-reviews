@@ -17,6 +17,9 @@
             <router-link v-if="!userData" to="/login" class="nav-link active">
               Login
             </router-link>
+            <router-link v-if="!userData" to="/register" class="nav-link active">
+              Register
+            </router-link>
             <a v-if="userData" @click="logout" class="nav-link active pointer">
               Logout ({{ userData }})
             </a>
