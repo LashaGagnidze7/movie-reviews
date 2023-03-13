@@ -1,4 +1,5 @@
-import { ObjectId } from "mongodb";
+import {ObjectId} from "mongodb";
+
 
 export default class CommentsDAO {
   static comments;
@@ -25,15 +26,15 @@ export default class CommentsDAO {
     }
   }
 
-  static async updateReview(reviewId, userId, review, date) {
+  static async updateReview(data) {
     try {
-      return await CommentsDAO.comments.updateOne(
-        { user_id: userId, _id: new ObjectId(reviewId) },
-        { $set: { review, date } }
+      data._id = new ObjectId(data._id);
+      await CommentsDAO.comments.updateOne(
+        {_id: data._id},
+        {$set: {text: data.text, date: data.date}}
       );
     } catch (e) {
       console.error(`unable to update review: ${e}`);
-      return { error: e };
     }
   }
 

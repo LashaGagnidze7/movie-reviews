@@ -10,6 +10,6 @@ export default class ReviewService {
   }
 
   static async updateReview(data) {
-    return await axios.put('http://localhost:5000/api/v1/movies/review', data);
+    await axios.put('http://localhost:5000/api/v1/movies/review', data);
   }
 }

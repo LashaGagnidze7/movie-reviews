@@ -92,13 +92,11 @@ const editReview = (comment) => {
   }
 };
 
-const saveUpdatedReview = async (newReview) => {
+const saveUpdatedReview = async (newComment) => {
   const data = {
-    review: newReview.review,
-    name: newReview.name,
-    email: newReview.email,
-    movie_id: newReview.movie_id,
-    review_id: newReview._id,
+    _id: newComment._id,
+    text: newComment.text,
+    date: new Date()
   };
   await ReviewService.updateReview(data);
 };
